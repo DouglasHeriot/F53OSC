@@ -28,7 +28,7 @@
 
 #import "F53OSCClient.h"
 #import "F53OSCPacket.h"
-#import "F53NSString.h"
+
 
 @interface F53OSCClient (Private)
 

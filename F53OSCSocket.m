@@ -165,6 +165,13 @@
         self.host = @"localhost";
         self.port = 0;
         self.stats = nil;
+		
+		NSError *error = nil;
+		if ( ![self.udpSocket enableBroadcast:YES error:&error] )
+		{
+			NSString *errString = error ? [error localizedDescription] : @"(unknown error)";
+			NSLog( @"Warning: %@ unable to enable UDP broadcast - %@", self, errString );
+		}
     }
     return self;
 }
@@ -315,15 +322,7 @@
     }
     else if ( self.udpSocket )
     {
-        NSError *error = nil;
-        if ( ![self.udpSocket enableBroadcast:YES error:&error] )
-        {
-            NSString *errString = error ? [error localizedDescription] : @"(unknown error)";
-            NSLog( @"Warning: %@ unable to enable UDP broadcast - %@", self, errString );
-        }
-
         [self.udpSocket sendData:data toHost:self.host port:self.port withTimeout:TIMEOUT tag:0];
-        [self.udpSocket closeAfterSending];
     }
 }
 
